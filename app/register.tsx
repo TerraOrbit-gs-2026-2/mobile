@@ -4,6 +4,7 @@ import { Alert, StyleSheet, Text, View } from 'react-native';
 import { AppButton } from '../src/components/AppButton';
 import { AppInput } from '../src/components/AppInput';
 import { ScreenCard } from '../src/components/ScreenCard';
+import { registerUser } from '../src/services/authService';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
 import { RegisterForm } from '../src/types/auth';
@@ -14,6 +15,7 @@ export default function Register() {
     email: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   function updateField(field: keyof RegisterForm, value: string) {
     setForm((currentForm) => ({
@@ -22,7 +24,7 @@ export default function Register() {
     }));
   }
 
-  function handleRegister() {
+  async function handleRegister() {
     if (!form.name || !form.email || !form.password) {
       Alert.alert('Campos obrigatorios', 'Preencha nome, e-mail e senha.');
       return;
@@ -33,8 +35,17 @@ export default function Register() {
       return;
     }
 
-    Alert.alert('Cadastro validado', 'Agora vamos conectar essa tela com a API Java.');
-    router.replace('/login');
+    try {
+      setIsLoading(true);
+      await registerUser(form);
+
+      Alert.alert('Cadastro realizado', 'Agora faca login para acessar o aplicativo.');
+      router.replace('/login');
+    } catch {
+      Alert.alert('Erro no cadastro', 'Nao foi possivel criar sua conta. Tente novamente.');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -69,7 +80,11 @@ export default function Register() {
           onChangeText={(value) => updateField('password', value)}
         />
 
-        <AppButton title="Criar conta" onPress={handleRegister} />
+        <AppButton
+          title={isLoading ? 'Criando conta...' : 'Criar conta'}
+          onPress={handleRegister}
+          disabled={isLoading}
+        />
 
         <Link href="/login" style={styles.link}>
           Ja tenho uma conta
