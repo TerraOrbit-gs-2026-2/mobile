@@ -36,7 +36,10 @@ export default function Login() {
       setIsLoading(true);
       const response = await loginUser(form);
 
-      signIn(response.token);
+      signIn({
+        token: response.token,
+        userId: response.userId,
+      });
       router.replace('/dashboard');
     } catch {
       Alert.alert('Erro no login', 'Verifique suas credenciais e tente novamente.');

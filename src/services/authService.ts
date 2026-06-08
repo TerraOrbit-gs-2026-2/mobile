@@ -1,9 +1,5 @@
 ﻿import { apiRequest } from './api';
-import { LoginForm, RegisterForm } from '../types/auth';
-
-type AuthResponse = {
-  token: string;
-};
+import { AuthResponse, LoginForm, RegisterForm } from '../types/auth';
 
 export function loginUser(data: LoginForm) {
   return apiRequest<AuthResponse>('/auth/login', {

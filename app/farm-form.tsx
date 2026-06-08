@@ -15,17 +15,15 @@ type FarmFormState = {
   name: string;
   location: string;
   farmSizeHectares: string;
-  ownerId: string;
 };
 
 export default function FarmForm() {
-  const { token } = useAuth();
+  const { token, userId } = useAuth();
 
   const [form, setForm] = useState<FarmFormState>({
     name: '',
     location: '',
     farmSizeHectares: '',
-    ownerId: '',
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,27 +35,21 @@ export default function FarmForm() {
   }
 
   async function handleSubmit() {
-    if (!token) {
+    if (!token || !userId) {
       Alert.alert('Sessao expirada', 'Faca login novamente.');
       router.replace('/login');
       return;
     }
 
-    if (!form.name || !form.location || !form.farmSizeHectares || !form.ownerId) {
+    if (!form.name || !form.location || !form.farmSizeHectares) {
       Alert.alert('Campos obrigatorios', 'Preencha todos os campos da fazenda.');
       return;
     }
 
     const farmSize = Number(form.farmSizeHectares.replace(',', '.'));
-    const ownerId = Number(form.ownerId);
 
     if (Number.isNaN(farmSize) || farmSize <= 0) {
       Alert.alert('Tamanho invalido', 'Informe o tamanho da fazenda em hectares.');
-      return;
-    }
-
-    if (Number.isNaN(ownerId) || ownerId <= 0) {
-      Alert.alert('Proprietario invalido', 'Informe um ID de proprietario valido.');
       return;
     }
 
@@ -65,7 +57,7 @@ export default function FarmForm() {
       name: form.name,
       location: form.location,
       farmSizeHectares: farmSize,
-      ownerId,
+      ownerId: userId,
     };
 
     try {
@@ -77,7 +69,7 @@ export default function FarmForm() {
     } catch {
       Alert.alert(
         'Erro ao cadastrar',
-        'Nao foi possivel criar a fazenda. Verifique se o ownerId existe na API.'
+        'Nao foi possivel criar a fazenda. Verifique se a API esta rodando.'
       );
     } finally {
       setIsLoading(false);
@@ -90,7 +82,7 @@ export default function FarmForm() {
         <ScreenCard>
           <Text style={styles.title}>Cadastrar fazenda</Text>
           <Text style={styles.text}>
-            Informe os dados para criar uma fazenda usando a API Java.
+            Informe os dados para criar uma fazenda vinculada ao usuario logado.
           </Text>
 
           <AppInput
@@ -113,14 +105,6 @@ export default function FarmForm() {
             keyboardType="numeric"
             value={form.farmSizeHectares}
             onChangeText={(value) => updateField('farmSizeHectares', value)}
-          />
-
-          <AppInput
-            label="ID do proprietario"
-            placeholder="Ex: 1"
-            keyboardType="numeric"
-            value={form.ownerId}
-            onChangeText={(value) => updateField('ownerId', value)}
           />
 
           <AppButton

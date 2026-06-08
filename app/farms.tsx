@@ -126,7 +126,6 @@ export default function Farms() {
               <Text style={styles.cardText}>
                 Tamanho: {item.farmSizeHectares} hectares
               </Text>
-              <Text style={styles.cardText}>Proprietario ID: {item.ownerId}</Text>
 
               <View style={styles.cardActions}>
                 <AppButton

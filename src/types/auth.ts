@@ -15,3 +15,8 @@ export type RegisterForm = {
   email: string;
   password: string;
 };
+
+export type AuthResponse = {
+  token: string;
+  userId: number;
+};

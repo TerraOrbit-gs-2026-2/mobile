@@ -1,9 +1,15 @@
 ﻿import { createContext, PropsWithChildren, useContext, useMemo, useState } from 'react';
 
+type SignInData = {
+  token: string;
+  userId: number;
+};
+
 type AuthContextData = {
   token: string | null;
+  userId: number | null;
   isAuthenticated: boolean;
-  signIn: (token: string) => void;
+  signIn: (data: SignInData) => void;
   signOut: () => void;
 };
 
@@ -11,15 +17,27 @@ const AuthContext = createContext<AuthContextData | undefined>(undefined);
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
+
+  function signIn(data: SignInData) {
+    setToken(data.token);
+    setUserId(data.userId);
+  }
+
+  function signOut() {
+    setToken(null);
+    setUserId(null);
+  }
 
   const value = useMemo(
     () => ({
       token,
+      userId,
       isAuthenticated: Boolean(token),
-      signIn: setToken,
-      signOut: () => setToken(null),
+      signIn,
+      signOut,
     }),
-    [token]
+    [token, userId]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
