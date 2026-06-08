@@ -1,9 +1,18 @@
-﻿import { Link } from 'expo-router';
+﻿import { Link, router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
+import { AppButton } from '../src/components/AppButton';
+import { useAuth } from '../src/contexts/AuthContext';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
 
 export default function Dashboard() {
+  const { signOut } = useAuth();
+
+  function handleLogout() {
+    signOut();
+    router.replace('/login');
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Dashboard</Text>
@@ -13,6 +22,10 @@ export default function Dashboard() {
       <Link href="/sensors" style={styles.link}>Sensores</Link>
       <Link href="/recommendations" style={styles.link}>Recomendacoes</Link>
       <Link href="/about" style={styles.link}>Sobre o App</Link>
+
+      <View style={styles.footer}>
+        <AppButton title="Sair" variant="secondary" onPress={handleLogout} />
+      </View>
     </View>
   );
 }
@@ -39,5 +52,8 @@ const styles = StyleSheet.create({
     padding: spacing.md,
     borderRadius: 12,
     marginBottom: spacing.md,
+  },
+  footer: {
+    marginTop: spacing.xl,
   },
 });

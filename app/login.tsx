@@ -4,11 +4,14 @@ import { Alert, StyleSheet, Text, View } from 'react-native';
 import { AppButton } from '../src/components/AppButton';
 import { AppInput } from '../src/components/AppInput';
 import { ScreenCard } from '../src/components/ScreenCard';
+import { useAuth } from '../src/contexts/AuthContext';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
 import { LoginForm } from '../src/types/auth';
 
 export default function Login() {
+  const { signIn } = useAuth();
+
   const [form, setForm] = useState<LoginForm>({
     email: '',
     password: '',
@@ -27,6 +30,7 @@ export default function Login() {
       return;
     }
 
+    signIn('token-simulado-para-desenvolvimento');
     router.replace('/dashboard');
   }
 
