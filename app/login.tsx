@@ -1,21 +1,66 @@
-﻿import { Link } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+﻿import { router, Link } from 'expo-router';
+import { useState } from 'react';
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import { AppButton } from '../src/components/AppButton';
+import { AppInput } from '../src/components/AppInput';
+import { ScreenCard } from '../src/components/ScreenCard';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
+import { LoginForm } from '../src/types/auth';
 
 export default function Login() {
+  const [form, setForm] = useState<LoginForm>({
+    email: '',
+    password: '',
+  });
+
+  function updateField(field: keyof LoginForm, value: string) {
+    setForm((currentForm) => ({
+      ...currentForm,
+      [field]: value,
+    }));
+  }
+
+  function handleLogin() {
+    if (!form.email || !form.password) {
+      Alert.alert('Campos obrigatorios', 'Informe e-mail e senha para entrar.');
+      return;
+    }
+
+    router.replace('/dashboard');
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <Text style={styles.text}>Aqui ficara a autenticacao real com a API Java.</Text>
+      <ScreenCard>
+        <Text style={styles.title}>Entrar</Text>
+        <Text style={styles.text}>
+          Acesse sua conta para acompanhar fazendas, sensores e recomendacoes.
+        </Text>
 
-      <Link href="/dashboard" style={styles.button}>
-        Entrar no app
-      </Link>
+        <AppInput
+          label="E-mail"
+          placeholder="seuemail@exemplo.com"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          value={form.email}
+          onChangeText={(value) => updateField('email', value)}
+        />
 
-      <Link href="/register" style={styles.link}>
-        Ainda nao tenho conta
-      </Link>
+        <AppInput
+          label="Senha"
+          placeholder="Digite sua senha"
+          secureTextEntry
+          value={form.password}
+          onChangeText={(value) => updateField('password', value)}
+        />
+
+        <AppButton title="Entrar no app" onPress={handleLogin} />
+
+        <Link href="/register" style={styles.link}>
+          Ainda nao tenho conta
+        </Link>
+      </ScreenCard>
     </View>
   );
 }
@@ -35,19 +80,13 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.textSecondary,
+    lineHeight: 22,
     marginBottom: spacing.xl,
-  },
-  button: {
-    backgroundColor: colors.primary,
-    color: colors.white,
-    textAlign: 'center',
-    padding: spacing.md,
-    borderRadius: 12,
-    fontWeight: '700',
-    marginBottom: spacing.md,
   },
   link: {
     color: colors.accent,
+    fontWeight: '700',
+    marginTop: spacing.lg,
     textAlign: 'center',
   },
 });
