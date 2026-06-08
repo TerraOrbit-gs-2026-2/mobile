@@ -1,4 +1,4 @@
-﻿import { Link } from 'expo-router';
+﻿import { Link, router } from 'expo-router';
 import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
@@ -18,14 +18,14 @@ import { spacing } from '../src/theme/spacing';
 import { Farm } from '../src/types/farm';
 
 export default function Farms() {
-  const { token } = useAuth();
+  const { token, userId } = useAuth();
 
   const [farms, setFarms] = useState<Farm[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const loadFarms = useCallback(async () => {
-    if (!token) {
+    if (!token || !userId) {
       setErrorMessage('Sessao expirada. Faca login novamente.');
       return;
     }
@@ -34,7 +34,7 @@ export default function Farms() {
       setIsLoading(true);
       setErrorMessage('');
 
-      const data = await getFarms(token);
+      const data = await getFarms(token, userId);
       setFarms(data);
     } catch {
       setErrorMessage(
@@ -43,7 +43,19 @@ export default function Farms() {
     } finally {
       setIsLoading(false);
     }
-  }, [token]);
+  }, [token, userId]);
+
+  function handleEditFarm(farm: Farm) {
+    router.push({
+      pathname: '/farm-form',
+      params: {
+        id: String(farm.id),
+        name: farm.farmName,
+        location: farm.location,
+        farmSizeHectares: String(farm.farmSizeHectares),
+      },
+    });
+  }
 
   function handleDeleteFarm(farm: Farm) {
     if (!token) {
@@ -73,7 +85,10 @@ export default function Farms() {
 
               Alert.alert('Fazenda excluida', 'A fazenda foi removida com sucesso.');
             } catch {
-              Alert.alert('Erro ao excluir', 'Nao foi possivel excluir a fazenda. Ela pode possuir sensores, incidentes, alertas ou recomendacoes vinculados.');
+              Alert.alert(
+                'Erro ao excluir',
+                'Nao foi possivel excluir a fazenda. Ela pode possuir sensores, incidentes, alertas ou recomendacoes vinculados.'
+              );
             } finally {
               setIsLoading(false);
             }
@@ -86,8 +101,8 @@ export default function Farms() {
   return (
     <ProtectedScreen>
       <View style={styles.container}>
-        <Text style={styles.title}>Fazendas</Text>
-        <Text style={styles.text}>Lista das fazendas cadastradas na API Java.</Text>
+        <Text style={styles.title}>Minhas Fazendas</Text>
+        <Text style={styles.text}>Fazendas vinculadas ao usuario autenticado.</Text>
 
         <Link href="/farm-form" style={styles.createLink}>
           Cadastrar fazenda
@@ -128,6 +143,13 @@ export default function Farms() {
               </Text>
 
               <View style={styles.cardActions}>
+                <AppButton
+                  title="Editar"
+                  onPress={() => handleEditFarm(item)}
+                />
+
+                <View style={styles.actionSpacer} />
+
                 <AppButton
                   title="Excluir"
                   variant="secondary"
@@ -210,6 +232,9 @@ const styles = StyleSheet.create({
   },
   cardActions: {
     marginTop: spacing.md,
+  },
+  actionSpacer: {
+    height: spacing.sm,
   },
   backLink: {
     color: colors.accent,

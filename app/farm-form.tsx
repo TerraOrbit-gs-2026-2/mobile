@@ -1,4 +1,4 @@
-﻿import { router } from 'expo-router';
+﻿import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { AppButton } from '../src/components/AppButton';
@@ -6,7 +6,7 @@ import { AppInput } from '../src/components/AppInput';
 import { ProtectedScreen } from '../src/components/ProtectedScreen';
 import { ScreenCard } from '../src/components/ScreenCard';
 import { useAuth } from '../src/contexts/AuthContext';
-import { createFarm } from '../src/services/farmService';
+import { createFarm, updateFarm } from '../src/services/farmService';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
 import { FarmFormData } from '../src/types/farm';
@@ -19,11 +19,19 @@ type FarmFormState = {
 
 export default function FarmForm() {
   const { token, userId } = useAuth();
+  const params = useLocalSearchParams<{
+    id?: string;
+    name?: string;
+    location?: string;
+    farmSizeHectares?: string;
+  }>();
+
+  const isEditing = Boolean(params.id);
 
   const [form, setForm] = useState<FarmFormState>({
-    name: '',
-    location: '',
-    farmSizeHectares: '',
+    name: params.name ?? '',
+    location: params.location ?? '',
+    farmSizeHectares: params.farmSizeHectares ?? '',
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -62,14 +70,20 @@ export default function FarmForm() {
 
     try {
       setIsLoading(true);
-      await createFarm(payload, token);
 
-      Alert.alert('Fazenda cadastrada', 'A fazenda foi criada com sucesso.');
+      if (isEditing && params.id) {
+        await updateFarm(Number(params.id), payload, token);
+        Alert.alert('Fazenda atualizada', 'A fazenda foi atualizada com sucesso.');
+      } else {
+        await createFarm(payload, token);
+        Alert.alert('Fazenda cadastrada', 'A fazenda foi criada com sucesso.');
+      }
+
       router.replace('/farms');
     } catch {
       Alert.alert(
-        'Erro ao cadastrar',
-        'Nao foi possivel criar a fazenda. Verifique se a API esta rodando.'
+        isEditing ? 'Erro ao atualizar' : 'Erro ao cadastrar',
+        'Nao foi possivel salvar a fazenda. Verifique se a API esta rodando.'
       );
     } finally {
       setIsLoading(false);
@@ -80,9 +94,13 @@ export default function FarmForm() {
     <ProtectedScreen>
       <View style={styles.container}>
         <ScreenCard>
-          <Text style={styles.title}>Cadastrar fazenda</Text>
+          <Text style={styles.title}>
+            {isEditing ? 'Editar fazenda' : 'Cadastrar fazenda'}
+          </Text>
           <Text style={styles.text}>
-            Informe os dados para criar uma fazenda vinculada ao usuario logado.
+            {isEditing
+              ? 'Atualize os dados da fazenda selecionada.'
+              : 'Informe os dados para criar uma fazenda vinculada ao usuario logado.'}
           </Text>
 
           <AppInput

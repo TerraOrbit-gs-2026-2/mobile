@@ -36,8 +36,8 @@ function extractFarms(response: FarmsResponse) {
   return (firstArray ?? []) as Farm[];
 }
 
-export async function getFarms(token: string) {
-  const response = await apiRequest<FarmsResponse>('/farms', {
+export async function getFarms(token: string, userId: number) {
+  const response = await apiRequest<FarmsResponse>(`/farms?userId=${userId}`, {
     headers: authHeaders(token),
   });
 
