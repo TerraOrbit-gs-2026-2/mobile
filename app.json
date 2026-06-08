@@ -24,6 +24,12 @@
     "plugins": [
       "expo-router"
     ],
-    "scheme": "terraorbit"
+    "scheme": "terraorbit",
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e43cd34a-da5c-42c1-a6b1-eb32f86e7412"
+      }
+    }
   }
 }
