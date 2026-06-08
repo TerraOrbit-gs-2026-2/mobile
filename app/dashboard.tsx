@@ -1,6 +1,7 @@
 ﻿import { Link, router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 import { AppButton } from '../src/components/AppButton';
+import { ProtectedScreen } from '../src/components/ProtectedScreen';
 import { useAuth } from '../src/contexts/AuthContext';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
@@ -14,19 +15,21 @@ export default function Dashboard() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Dashboard</Text>
-      <Text style={styles.text}>Resumo da operacao TerraOrbit.</Text>
+    <ProtectedScreen>
+      <View style={styles.container}>
+        <Text style={styles.title}>Dashboard</Text>
+        <Text style={styles.text}>Resumo da operacao TerraOrbit.</Text>
 
-      <Link href="/farms" style={styles.link}>Fazendas</Link>
-      <Link href="/sensors" style={styles.link}>Sensores</Link>
-      <Link href="/recommendations" style={styles.link}>Recomendacoes</Link>
-      <Link href="/about" style={styles.link}>Sobre o App</Link>
+        <Link href="/farms" style={styles.link}>Fazendas</Link>
+        <Link href="/sensors" style={styles.link}>Sensores</Link>
+        <Link href="/recommendations" style={styles.link}>Recomendacoes</Link>
+        <Link href="/about" style={styles.link}>Sobre o App</Link>
 
-      <View style={styles.footer}>
-        <AppButton title="Sair" variant="secondary" onPress={handleLogout} />
+        <View style={styles.footer}>
+          <AppButton title="Sair" variant="secondary" onPress={handleLogout} />
+        </View>
       </View>
-    </View>
+    </ProtectedScreen>
   );
 }
 
