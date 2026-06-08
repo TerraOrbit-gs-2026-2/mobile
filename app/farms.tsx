@@ -2,6 +2,7 @@
 import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   RefreshControl,
   StyleSheet,
@@ -11,7 +12,7 @@ import {
 import { AppButton } from '../src/components/AppButton';
 import { ProtectedScreen } from '../src/components/ProtectedScreen';
 import { useAuth } from '../src/contexts/AuthContext';
-import { getFarms } from '../src/services/farmService';
+import { deleteFarm, getFarms } from '../src/services/farmService';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
 import { Farm } from '../src/types/farm';
@@ -36,11 +37,51 @@ export default function Farms() {
       const data = await getFarms(token);
       setFarms(data);
     } catch {
-      setErrorMessage('Nao foi possivel carregar as fazendas. Verifique se a API esta rodando e se o login foi feito corretamente.');
+      setErrorMessage(
+        'Nao foi possivel carregar as fazendas. Verifique se a API esta rodando e se o login foi feito corretamente.'
+      );
     } finally {
       setIsLoading(false);
     }
   }, [token]);
+
+  function handleDeleteFarm(farm: Farm) {
+    if (!token) {
+      setErrorMessage('Sessao expirada. Faca login novamente.');
+      return;
+    }
+
+    Alert.alert(
+      'Excluir fazenda',
+      `Deseja excluir a fazenda ${farm.farmName}?`,
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setIsLoading(true);
+              await deleteFarm(farm.id, token);
+
+              setFarms((currentFarms) =>
+                currentFarms.filter((currentFarm) => currentFarm.id !== farm.id)
+              );
+
+              Alert.alert('Fazenda excluida', 'A fazenda foi removida com sucesso.');
+            } catch {
+              Alert.alert('Erro ao excluir', 'Nao foi possivel excluir a fazenda. Ela pode possuir sensores, incidentes, alertas ou recomendacoes vinculados.');
+            } finally {
+              setIsLoading(false);
+            }
+          },
+        },
+      ]
+    );
+  }
 
   return (
     <ProtectedScreen>
@@ -86,6 +127,14 @@ export default function Farms() {
                 Tamanho: {item.farmSizeHectares} hectares
               </Text>
               <Text style={styles.cardText}>Proprietario ID: {item.ownerId}</Text>
+
+              <View style={styles.cardActions}>
+                <AppButton
+                  title="Excluir"
+                  variant="secondary"
+                  onPress={() => handleDeleteFarm(item)}
+                />
+              </View>
             </View>
           )}
           contentContainerStyle={styles.listContent}
@@ -159,6 +208,9 @@ const styles = StyleSheet.create({
   cardText: {
     color: colors.textSecondary,
     marginBottom: spacing.xs,
+  },
+  cardActions: {
+    marginTop: spacing.md,
   },
   backLink: {
     color: colors.accent,

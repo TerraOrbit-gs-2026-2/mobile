@@ -12,14 +12,15 @@ export async function apiRequest<TResponse>(
     },
   });
 
+  const responseText = await response.text();
+
   if (!response.ok) {
-    const message = await response.text();
-    throw new Error(message || 'Erro ao comunicar com a API.');
+    throw new Error(responseText || 'Erro ao comunicar com a API.');
   }
 
-  if (response.status === 204) {
+  if (!responseText) {
     return undefined as TResponse;
   }
 
-  return response.json() as Promise<TResponse>;
+  return JSON.parse(responseText) as TResponse;
 }
