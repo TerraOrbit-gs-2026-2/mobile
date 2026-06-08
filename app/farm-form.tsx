@@ -1,16 +1,19 @@
 ﻿import { Link } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
+import { ProtectedScreen } from '../src/components/ProtectedScreen';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
 
 export default function FarmForm() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Formulario de Fazenda</Text>
-      <Text style={styles.text}>Tela para criar e editar fazendas pelo CRUD da API.</Text>
+    <ProtectedScreen>
+      <View style={styles.container}>
+        <Text style={styles.title}>Formulario de Fazenda</Text>
+        <Text style={styles.text}>Tela para criar e editar fazendas pelo CRUD da API.</Text>
 
-      <Link href="/farms" style={styles.link}>Voltar para fazendas</Link>
-    </View>
+        <Link href="/farms" style={styles.link}>Voltar para fazendas</Link>
+      </View>
+    </ProtectedScreen>
   );
 }
 

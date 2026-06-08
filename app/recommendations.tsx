@@ -1,16 +1,21 @@
 ﻿import { Link } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
+import { ProtectedScreen } from '../src/components/ProtectedScreen';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
 
 export default function Recommendations() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Recomendacoes</Text>
-      <Text style={styles.text}>Recomendacoes inteligentes geradas a partir dos dados climaticos.</Text>
+    <ProtectedScreen>
+      <View style={styles.container}>
+        <Text style={styles.title}>Recomendacoes</Text>
+        <Text style={styles.text}>
+          Recomendacoes inteligentes geradas a partir dos dados climaticos.
+        </Text>
 
-      <Link href="/dashboard" style={styles.link}>Voltar ao dashboard</Link>
-    </View>
+        <Link href="/dashboard" style={styles.link}>Voltar ao dashboard</Link>
+      </View>
+    </ProtectedScreen>
   );
 }
 

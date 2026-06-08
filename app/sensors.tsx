@@ -1,16 +1,19 @@
 ﻿import { Link } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
+import { ProtectedScreen } from '../src/components/ProtectedScreen';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
 
 export default function Sensors() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sensores</Text>
-      <Text style={styles.text}>Monitoramento de sensores de temperatura e umidade.</Text>
+    <ProtectedScreen>
+      <View style={styles.container}>
+        <Text style={styles.title}>Sensores</Text>
+        <Text style={styles.text}>Monitoramento de sensores de temperatura e umidade.</Text>
 
-      <Link href="/dashboard" style={styles.link}>Voltar ao dashboard</Link>
-    </View>
+        <Link href="/dashboard" style={styles.link}>Voltar ao dashboard</Link>
+      </View>
+    </ProtectedScreen>
   );
 }
 
