@@ -41,8 +41,11 @@ export default function Register() {
 
       Alert.alert('Cadastro realizado', 'Agora faca login para acessar o aplicativo.');
       router.replace('/login');
-    } catch {
-      Alert.alert('Erro no cadastro', 'Nao foi possivel criar sua conta. Tente novamente.');
+    } catch (error) {
+      Alert.alert(
+        'Erro no cadastro',
+        error instanceof Error ? error.message : 'Nao foi possivel criar sua conta.'
+      );
     } finally {
       setIsLoading(false);
     }
