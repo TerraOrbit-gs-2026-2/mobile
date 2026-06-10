@@ -1,4 +1,4 @@
-﻿\# TerraOrbit Mobile
+\# TerraOrbit Mobile
 
 
 
@@ -10,11 +10,11 @@ Aplicativo mobile desenvolvido para a Global Solution 2026/1 da FIAP, na discipl
 
 
 
-O TerraOrbit Ã© uma soluÃ§Ã£o voltada ao monitoramento agrÃ­cola inteligente. A proposta Ã© apoiar produtores rurais no acompanhamento de suas fazendas, permitindo o cadastro, consulta e gerenciamento de propriedades por meio de um aplicativo mobile integrado a uma API Java.
+O TerraOrbit e uma solucao voltada ao monitoramento agricola inteligente. A proposta e apoiar produtores rurais no acompanhamento de suas fazendas, permitindo o cadastro, consulta e gerenciamento de propriedades por meio de um aplicativo mobile integrado a uma API Java.
 
 
 
-O projeto foi desenvolvido dentro do tema da Global Solution 2026/1: "O EspaÃ§o Ã© a Nova Fronteira". A soluÃ§Ã£o se conecta ao tema ao explorar o uso de tecnologia, dados e monitoramento para apoiar decisÃµes no agronegÃ³cio, Ã¡rea que pode se beneficiar diretamente de dados climÃ¡ticos, sensores e infraestrutura espacial.
+O projeto foi desenvolvido dentro do tema da Global Solution 2026/1: "O Espaco e a Nova Fronteira". A solucao se conecta ao tema ao explorar o uso de tecnologia, dados e monitoramento para apoiar decisoes no agronegocio, area que pode se beneficiar diretamente de dados climaticos, sensores e infraestrutura espacial.
 
 
 
@@ -22,11 +22,11 @@ O projeto foi desenvolvido dentro do tema da Global Solution 2026/1: "O EspaÃ§
 
 
 
-O aplicativo tem como objetivo oferecer uma interface simples para que usuÃ¡rios possam acessar a plataforma TerraOrbit, autenticar-se e gerenciar suas fazendas cadastradas.
+O aplicativo tem como objetivo oferecer uma interface simples para que usuarios possam acessar a plataforma TerraOrbit, autenticar-se e gerenciar suas fazendas cadastradas.
 
 
 
-A aplicaÃ§Ã£o mobile consome a API Java desenvolvida pelo grupo, permitindo que os dados sejam persistidos no backend e no banco de dados, em vez de ficarem apenas localmente no dispositivo.
+A aplicacao mobile consome a API Java desenvolvida pelo grupo, permitindo que os dados sejam persistidos no backend e no banco de dados, em vez de ficarem apenas localmente no dispositivo.
 
 
 
@@ -34,25 +34,27 @@ A aplicaÃ§Ã£o mobile consome a API Java desenvolvida pelo grupo, permitindo 
 
 
 
-\- Cadastro de usuÃ¡rio
+\- Cadastro de usuario
 
-\- Login com autenticaÃ§Ã£o integrada Ã  API Java
+\- Login com autenticacao via API Java
 
 \- Logout
 
-\- ProteÃ§Ã£o de telas internas
+\- Protecao de telas internas
 
-\- Listagem das fazendas do usuÃ¡rio autenticado
+\- Listagem das fazendas do usuario autenticado
 
 \- Cadastro de novas fazendas
 
-\- EdiÃ§Ã£o de fazendas existentes
+\- Edicao de fazendas existentes
 
-\- ExclusÃ£o de fazendas quando nÃ£o possuem vÃ­nculos no sistema
+\- Exclusao de fazendas quando nao possuem vinculos no sistema
 
 \- Feedback visual para carregamento, sucesso e erro
 
-\- Tela Sobre o App com informaÃ§Ãµes do projeto e hash do commit
+\- Tela Sobre o App com informacoes do projeto e hash do commit
+
+\- Navegacao entre telas com Expo Router
 
 
 
@@ -74,17 +76,17 @@ O aplicativo possui as seguintes telas:
 
 \- Minhas Fazendas
 
-\- Cadastro e ediÃ§Ã£o de Fazenda
+\- Cadastro e edicao de Fazenda
 
 \- Sensores
 
-\- RecomendaÃ§Ãµes
+\- Recomendacoes
 
 \- Sobre o App
 
 
 
-As telas de Sensores e RecomendaÃ§Ãµes foram estruturadas como mÃ³dulos de expansÃ£o da soluÃ§Ã£o TerraOrbit, pois fazem parte da proposta geral da plataforma.
+As telas de Sensores e Recomendacoes foram estruturadas como modulos de expansao da solucao TerraOrbit, pois fazem parte da proposta geral da plataforma.
 
 
 
@@ -110,7 +112,7 @@ As telas de Sensores e RecomendaÃ§Ãµes foram estruturadas como mÃ³dulos de
 
 
 
-\## IntegraÃ§Ã£o com a API
+\## Integracao com a API
 
 
 
@@ -118,7 +120,7 @@ O aplicativo consome a API Java do projeto TerraOrbit.
 
 
 
-RepositÃ³rio da API:
+Repositorio da API:
 
 
 
@@ -126,7 +128,7 @@ https://github.com/TerraOrbit-gs-2026-2/java
 
 
 
-Durante o desenvolvimento e testes no Android Emulator, a API local foi acessada pelo endereÃ§o:
+Durante o desenvolvimento e testes no Android Emulator, a API local foi acessada pelo endereco:
 
 
 
@@ -134,19 +136,19 @@ http://10.0.2.2:8080
 
 
 
-Esse endereÃ§o permite que o emulador Android acesse a API rodando localmente no computador.
+Esse endereco permite que o emulador Android acesse a API rodando localmente no computador.
 
 
 
-\## ObservaÃ§Ã£o sobre exclusÃ£o de fazendas
+\## Observacao sobre exclusao de fazendas
 
 
 
-A exclusÃ£o de fazendas funciona quando a fazenda nÃ£o possui dados vinculados.
+A exclusao de fazendas funciona quando a fazenda nao possui dados vinculados.
 
 
 
-Caso a fazenda possua sensores, incidentes, alertas ou recomendaÃ§Ãµes associados, o backend pode impedir a exclusÃ£o para preservar a integridade dos dados. Nesses casos, o aplicativo exibe uma mensagem informando que a fazenda possui vÃ­nculos no sistema.
+Caso a fazenda possua sensores, incidentes, alertas ou recomendacoes associados, o backend pode impedir a exclusao para preservar a integridade dos dados. Nesses casos, o aplicativo exibe uma mensagem informando que a fazenda possui vinculos no sistema.
 
 
 
@@ -154,7 +156,7 @@ Caso a fazenda possua sensores, incidentes, alertas ou recomendaÃ§Ãµes assoc
 
 
 
-\### PrÃ©-requisitos
+\### Pre-requisitos
 
 
 
@@ -168,7 +170,7 @@ Caso a fazenda possua sensores, incidentes, alertas ou recomendaÃ§Ãµes assoc
 
 
 
-\### InstalaÃ§Ã£o
+\### Instalacao
 
 
 
@@ -176,7 +178,7 @@ npm install
 
 
 
-\### ExecuÃ§Ã£o
+\### Execucao
 
 
 
@@ -192,7 +194,7 @@ Para abrir no Android Emulator, pressione a tecla "a" no terminal do Expo.
 
 
 
-O projeto foi configurado com EAS Build para geraÃ§Ã£o do APK Android.
+O projeto foi configurado com EAS Build para geracao do APK Android.
 
 
 
@@ -204,11 +206,11 @@ eas build --platform android --profile preview
 
 
 
-\## VÃ­deo demonstrativo
+\## Video demonstrativo
 
 
 
-Link do vÃ­deo no YouTube:
+Link do video no YouTube:
 
 
 
@@ -226,7 +228,7 @@ https://youtu.be/bk3oBW8zS4Y
 
 | Felipe Anselmo | RM560661 |
 
-| JoÃ£o Vinicius | RM559369 |
+| Joao Vinicius | RM559369 |
 
 | Matheus Mariotto | RM560276 |
 
@@ -236,13 +238,13 @@ https://youtu.be/bk3oBW8zS4Y
 
 
 
-\## OrganizaÃ§Ã£o geral
+\## Organizacao geral
 
 
 
-O projeto estÃ¡ organizado em telas, componentes reutilizÃ¡veis, contexto de autenticaÃ§Ã£o, serviÃ§os de comunicaÃ§Ã£o com a API, tipos e arquivos de tema.
+O projeto esta organizado em telas, componentes reutilizaveis, contexto de autenticacao, servicos de comunicacao com a API, tipos e arquivos de tema.
 
 
 
-Essa organizaÃ§Ã£o foi adotada para separar responsabilidades e facilitar a manutenÃ§Ã£o do aplicativo.
+Essa organizacao foi adotada para separar responsabilidades e facilitar a manutencao do aplicativo.
 
