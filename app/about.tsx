@@ -4,7 +4,7 @@ import { ProtectedScreen } from '../src/components/ProtectedScreen';
 import { colors } from '../src/theme/colors';
 import { spacing } from '../src/theme/spacing';
 
-const COMMIT_HASH = 'cefadf3';
+const COMMIT_HASH = '2436ba9';
 
 export default function About() {
   return (
